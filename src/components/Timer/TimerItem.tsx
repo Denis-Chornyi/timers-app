@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimerItem } from './Timer';
+import { TimerItem } from '.';
 
 interface TimerRowProps {
   timer: TimerItem;
