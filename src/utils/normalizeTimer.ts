@@ -1,4 +1,4 @@
-import type { TimerItem } from '../components/Timer/index';
+import type { TimerItem } from '../components/Timers/index';
 
 export const normalizeTimer = (t: any): TimerItem => ({
   id: Number(t.id ?? Date.now()),

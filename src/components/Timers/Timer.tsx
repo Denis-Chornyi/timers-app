@@ -1,7 +1,6 @@
-import React from 'react';
-import { TimerItem } from '.';
+import { TimerItem } from './index';
 
-interface TimerRowProps {
+type TimerProps = {
   timer: TimerItem;
   time: number;
   onToggle: (id: number) => void;
@@ -9,11 +8,14 @@ interface TimerRowProps {
   formatTime: (ms: number) => string;
 }
 
-const TimerRow: React.FC<TimerRowProps> = ({ timer, time, onToggle, onDelete, formatTime }) => {
+const Timer: React.FC<TimerProps> = ({ timer, time, onToggle, onDelete, formatTime }) => {
   return (
     <li className="flex items-center justify-between gap-[4px] md:gap-[20px]">
       <div className="relative group">
-        <span className="w-[130px] text-start text-[20px] text-blue-500 font-[800] truncate block">
+        <span
+          className="w-[130px] text-start text-[20px] text-blue-500 font-[800] truncate block"
+          title={timer.title}
+        >
           {timer.title}
         </span>
 
@@ -23,7 +25,9 @@ const TimerRow: React.FC<TimerRowProps> = ({ timer, time, onToggle, onDelete, fo
       </div>
 
       <div
-        className={`px-6 py-3 rounded-md text-[17px] m-[0_4px] md:m-[0_21px_0_38px] ${timer.isRunning ? 'bg-gray-200' : 'bg-pink-500/15'}`}
+        className={`px-6 py-3 rounded-md text-[17px] m-[0_4px] md:m-[0_21px_0_38px] ${
+          timer.isRunning ? 'bg-gray-200' : 'bg-pink-500/15'
+        }`}
       >
         {formatTime(time)}
       </div>
@@ -32,10 +36,18 @@ const TimerRow: React.FC<TimerRowProps> = ({ timer, time, onToggle, onDelete, fo
         <button
           type="button"
           onClick={() => onToggle(timer.id)}
-          className={`w-[50px] h-[50px] rounded-full ${timer.isRunning ? 'bg-gradient-to-br from-[#7956ec] to-[#2fb9f8]' : 'bg-gradient-to-br from-[#009fc5] to-[#3cecb0]'} text-white flex items-center justify-center`}
+          className={`w-[50px] h-[50px] rounded-full ${
+            timer.isRunning
+              ? 'bg-gradient-to-br from-[#7956ec] to-[#2fb9f8]'
+              : 'bg-gradient-to-br from-[#009fc5] to-[#3cecb0]'
+          } text-white flex items-center justify-center`}
           aria-label="Toggle timer"
         >
-          {timer.isRunning ? <img src="/images/pause.png" /> : <img src="/images/play.png" />}
+          {timer.isRunning ? (
+            <img src="/images/pause.png" alt="Pause" />
+          ) : (
+            <img src="/images/play.png" alt="Play" />
+          )}
         </button>
 
         <button
@@ -44,11 +56,11 @@ const TimerRow: React.FC<TimerRowProps> = ({ timer, time, onToggle, onDelete, fo
           className="w-[50px] h-[50px] rounded-md bg-gradient-to-r from-pink-500 to-orange-400 text-white flex items-center justify-center"
           aria-label="Delete timer"
         >
-          <img src="/images/delete.png" />
+          <img src="/images/delete.png" alt="Delete" />
         </button>
       </div>
     </li>
   );
 };
 
-export default TimerRow;
+export default Timer;

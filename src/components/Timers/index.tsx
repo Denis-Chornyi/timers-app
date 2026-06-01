@@ -1,5 +1,7 @@
-import { useState, useEffect, FormEvent } from 'react';
-import TimerRow from './TimerItem';
+import { useState, useEffect } from 'react';
+import Timer from './Timer';
+import CreateForm from './CreateForm';
+
 import { normalizeTimer } from '../../utils/normalizeTimer';
 import { getDefaultTitle, calculateTime, formatTime } from '../../utils/timer';
 
@@ -13,15 +15,17 @@ export type TimerItem = {
 
 const STORAGE_KEY = 'timers';
 
-const Timer: React.FC = () => {
+const Timers: React.FC = () => {
   const [name, setName] = useState('');
 
   const [timers, setTimers] = useState<TimerItem[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
+
       if (!saved) return [];
 
       const parsed = JSON.parse(saved);
+
       return Array.isArray(parsed) ? parsed.map(normalizeTimer) : [];
     } catch {
       return [];
@@ -40,9 +44,7 @@ const Timer: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const addTimer = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const addTimer = () => {
     const newTimer: TimerItem = {
       id: Date.now(),
       title: name.trim() || getDefaultTitle(),
@@ -88,43 +90,25 @@ const Timer: React.FC = () => {
         do we use it?
       </h2>
 
-      <p className="md:max-w-[570px] text-center text-[#676c75] leading-[30px] tracking-normal">
+      <p className="md:max-w-[570px] text-center text-[#676c75] leading-[30px]">
         This sounded nonsense to Alice, so she said nothing, but set off at once toward the Red
         Queen. To her surprise, she lost sight of her in a moment.
       </p>
 
       <div className="w-full min-h-[190px] mt-[42px] text-center bg-white rounded-xl md:w-auto">
-        <form
-          onSubmit={addTimer}
-          className="w-full flex flex-col items-center gap-[20px] p-[40px_16px_30px_16px] md:flex-row md:w-[770px] md:justify-center md:px-[140px]"
-        >
-          <input
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            placeholder="Timer Name"
-            className="w-full h-[50px] text-[17px] rounded-[6px] border border-[#e7e8ea] bg-[#f8f9fa] px-[20px] md:w-[305px]"
-          />
+        <CreateForm name={name} setName={setName} onSubmit={addTimer} />
 
-          <button
-            type="submit"
-            className="w-full min-w-[165px] h-[50px] text-[17px] font-bold text-white tracking-[1px] rounded-[6px] bg-gradient-to-r from-orange-400 to-yellow-300 hover:scale-105 transition md:max-w-[165px]"
-          >
-            Create Timer
-          </button>
-        </form>
-
-        <span className="block w-full h-[1px] bg-[#e7e8ea]"></span>
+        <span className="block w-full h-[1px] bg-[#e7e8ea]" />
 
         <ul className="flex flex-col gap-[40px] p-[30px_50px_39px_50px] md:px-[152px]">
           {timers.map(timer => (
-            <TimerRow
+            <Timer
               key={timer.id}
               timer={timer}
+              time={calculateTime(timer)}
               onToggle={toggleTimer}
               onDelete={deleteTimer}
               formatTime={formatTime}
-              time={calculateTime(timer)}
             />
           ))}
         </ul>
@@ -133,4 +117,4 @@ const Timer: React.FC = () => {
   );
 };
 
-export default Timer;
+export default Timers;

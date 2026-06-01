@@ -1,6 +1,6 @@
 import Navigation from '../Navigation';
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
     <section className="bg-[url('/images/header-img.png')] bg-cover bg-no-repeat">
       <div className="relative max-w-[1440px] m-[0_auto] px-[16px] xl:px-[135px]">
