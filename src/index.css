@@ -12,14 +12,11 @@
   }
 
   .btn {
-    @apply min-w-[167px] h-[50px] text-[17px] font-bold leading-[17px] 
-    tracking-[1px] text-white rounded-[6px] border-0 
-    bg-[linear-gradient(163deg,#ff8e64,#ffe641)] transition-transform duration-200 
-    hover:scale-105;
+    @apply h-[50px] min-w-[167px] rounded-[6px] border-0 bg-[linear-gradient(163deg,#ff8e64,#ffe641)] text-[17px] font-bold leading-[17px] tracking-[1px] text-white transition-transform duration-200 hover:scale-105;
   }
 
   .social-icon {
-    @apply w-[40px] h-[40px] flex justify-center items-center border-[0.5px] border-gray-300;
+    @apply flex h-[40px] w-[40px] items-center justify-center border-[0.5px] border-gray-300;
   }
 
   .btn-secondary {

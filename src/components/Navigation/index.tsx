@@ -3,7 +3,7 @@ const navItems = ['Features', 'Video Tour', 'Reviews', 'Pricing'];
 const Navigation: React.FC = () => {
   return (
     <div className="flex items-center">
-      <ul className="hidden md:flex items-center text-white text-[15px] gap-[31px] menu">
+      <ul className="menu hidden items-center gap-[31px] text-[15px] text-white md:flex">
         {navItems.map(item => (
           <li key={item}>
             <a href="#">{item}</a>
@@ -11,11 +11,7 @@ const Navigation: React.FC = () => {
         ))}
       </ul>
 
-      <button
-        className="font-bold text-[14px] leading-none tracking-[1px]
-        p-[13px_20px] bg-white rounded-[6px]
-        transition-transform duration-200 hover:scale-105"
-      >
+      <button className="rounded-[6px] bg-white p-[13px_20px] text-[14px] font-bold leading-none tracking-[1px] transition-transform duration-200 hover:scale-105">
         GET IT FREE
       </button>
     </div>

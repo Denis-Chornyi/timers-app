@@ -84,21 +84,21 @@ const Timers: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-[18px] min-h-[840px] pt-[80px] px-[16px] pb-[113px] xl:p-[250px_0_113px]">
-      <h2 className="md:max-w-[570px] text-[35px] text-[#282B31] font-[300] leading-[50px] tracking-[1px]">
-        <span className="font-[800] mr-[11px]">Why</span>
+    <div className="flex min-h-[840px] flex-col items-center gap-[18px] px-[16px] pb-[113px] pt-[80px] xl:p-[250px_0_113px]">
+      <h2 className="text-[35px] font-[300] leading-[50px] tracking-[1px] text-[#282B31] md:max-w-[570px]">
+        <span className="mr-[11px] font-[800]">Why</span>
         do we use it?
       </h2>
 
-      <p className="md:max-w-[570px] text-center text-[#676c75] leading-[30px]">
+      <p className="text-center leading-[30px] text-[#676c75] md:max-w-[570px]">
         This sounded nonsense to Alice, so she said nothing, but set off at once toward the Red
         Queen. To her surprise, she lost sight of her in a moment.
       </p>
 
-      <div className="w-full min-h-[190px] mt-[42px] text-center bg-white rounded-xl md:w-auto">
+      <div className="mt-[42px] min-h-[190px] w-full rounded-xl bg-white text-center md:w-auto">
         <CreateForm name={name} setName={setName} onSubmit={addTimer} />
 
-        <span className="block w-full h-[1px] bg-[#e7e8ea]" />
+        <span className="block h-[1px] w-full bg-[#e7e8ea]" />
 
         <ul className="flex flex-col gap-[40px] p-[30px_50px_39px_50px] md:px-[152px]">
           {timers.map(timer => (
