@@ -1,15 +1,17 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 
 type CreateFormProps = {
-  name: string;
-  setName: React.Dispatch<React.SetStateAction<string>>;
-  onSubmit: () => void;
+  onSubmit: (title: string) => void;
 };
 
-const CreateForm: React.FC<CreateFormProps> = ({ name, setName, onSubmit }) => {
+const CreateForm: React.FC<CreateFormProps> = ({ onSubmit }) => {
+  const [name, setName] = useState('');
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit();
+
+    onSubmit(name);
+    setName('');
   };
 
   return (

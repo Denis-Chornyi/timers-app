@@ -1,4 +1,4 @@
-import type { TimerItem } from '../components/Timers/index';
+import { TimerItem } from '../types/timer';
 
 export const formatTime = (ms: number): string => {
   if (!ms || isNaN(ms)) return '00:00:00';

@@ -1,60 +1,30 @@
 import { useState, useEffect } from 'react';
 import Timer from './Timer';
 import CreateForm from './CreateForm';
-
+import { getTimers, saveTimers } from '../../utils/storage';
 import { normalizeTimer } from '../../utils/normalizeTimer';
-import { getDefaultTitle, calculateTime, formatTime } from '../../utils/timer';
-
-export type TimerItem = {
-  id: number;
-  title: string;
-  startTime: number;
-  elapsed: number;
-  isRunning: boolean;
-};
-
-const STORAGE_KEY = 'timers';
+import { getDefaultTitle, formatTime } from '../../utils/timer';
+import { TimerItem } from '../../types/timer';
 
 const Timers: React.FC = () => {
-  const [name, setName] = useState('');
-
-  const [timers, setTimers] = useState<TimerItem[]>(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-
-      if (!saved) return [];
-
-      const parsed = JSON.parse(saved);
-
-      return Array.isArray(parsed) ? parsed.map(normalizeTimer) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [timers, setTimers] = useState<TimerItem[]>(() => getTimers().map(normalizeTimer));
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(timers));
+    saveTimers(timers);
   }, [timers]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimers(prev => [...prev]);
-    }, 1000);
+  const addTimer = (title: string) => {
+    const now = Date.now();
 
-    return () => clearInterval(interval);
-  }, []);
-
-  const addTimer = () => {
     const newTimer: TimerItem = {
-      id: Date.now(),
-      title: name.trim() || getDefaultTitle(),
-      startTime: Date.now(),
+      id: now,
+      title: title.trim() || getDefaultTitle(),
+      startTime: now,
       elapsed: 0,
       isRunning: true
     };
 
     setTimers(prev => [newTimer, ...prev]);
-    setName('');
   };
 
   const toggleTimer = (id: number) => {
@@ -96,7 +66,7 @@ const Timers: React.FC = () => {
       </p>
 
       <div className="mt-[42px] min-h-[190px] w-full rounded-xl bg-white text-center md:w-auto">
-        <CreateForm name={name} setName={setName} onSubmit={addTimer} />
+        <CreateForm onSubmit={addTimer} />
 
         <span className="block h-[1px] w-full bg-[#e7e8ea]" />
 
@@ -105,7 +75,6 @@ const Timers: React.FC = () => {
             <Timer
               key={timer.id}
               timer={timer}
-              time={calculateTime(timer)}
               onToggle={toggleTimer}
               onDelete={deleteTimer}
               formatTime={formatTime}

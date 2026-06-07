@@ -1,14 +1,29 @@
-import { TimerItem } from './index';
+import { useEffect, useState } from 'react';
+import { calculateTime } from '../../utils/timer';
+import { TimerItem } from '../../types/timer';
 
 type TimerProps = {
   timer: TimerItem;
-  time: number;
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
   formatTime: (ms: number) => string;
 };
 
-const Timer: React.FC<TimerProps> = ({ timer, time, onToggle, onDelete, formatTime }) => {
+const Timer: React.FC<TimerProps> = ({ timer, onToggle, onDelete, formatTime }) => {
+  const [, setTick] = useState(0);
+
+  useEffect(() => {
+    if (!timer.isRunning) return;
+
+    const interval = setInterval(() => {
+      setTick(prev => prev + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timer.isRunning]);
+
+  const time = calculateTime(timer);
+
   return (
     <li className="flex items-center justify-between gap-[4px] md:gap-[20px]">
       <div className="group relative">
@@ -36,11 +51,11 @@ const Timer: React.FC<TimerProps> = ({ timer, time, onToggle, onDelete, formatTi
         <button
           type="button"
           onClick={() => onToggle(timer.id)}
-          className={`h-[50px] w-[50px] rounded-full ${
+          className={`flex h-[50px] w-[50px] items-center justify-center rounded-full text-white ${
             timer.isRunning
               ? 'bg-gradient-to-br from-[#7956ec] to-[#2fb9f8]'
               : 'bg-gradient-to-br from-[#009fc5] to-[#3cecb0]'
-          } flex items-center justify-center text-white`}
+          }`}
           aria-label="Toggle timer"
         >
           {timer.isRunning ? (
