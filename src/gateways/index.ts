@@ -1,4 +1,5 @@
-import { TimerItem } from '../types/timer';
+import { TimerItem } from '../types';
+import { normalizeTimer } from '../utils/';
 
 export const STORAGE_KEY = 'timers';
 
@@ -7,13 +8,9 @@ export const saveTimers = (timers: TimerItem[]): void => {
 };
 
 export const getTimers = (): TimerItem[] => {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+  const saved = localStorage.getItem(STORAGE_KEY);
 
-    if (!saved) return [];
+  if (!saved) return [];
 
-    return JSON.parse(saved);
-  } catch {
-    return [];
-  }
+  return JSON.parse(saved).map(normalizeTimer);
 };

@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { calculateTime } from '../../utils/timer';
-import { TimerItem } from '../../types/timer';
+import { calculateTime, formatTime } from '../../utils/index';
+import { TimerItem } from '../../types';
 
 type TimerProps = {
   timer: TimerItem;
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
-  formatTime: (ms: number) => string;
 };
 
-const Timer: React.FC<TimerProps> = ({ timer, onToggle, onDelete, formatTime }) => {
+const Timer: React.FC<TimerProps> = ({ timer, onToggle, onDelete }) => {
   const [, setTick] = useState(0);
 
   useEffect(() => {

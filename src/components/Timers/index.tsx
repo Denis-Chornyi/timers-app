@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
-import Timer from './Timer';
-import CreateForm from './CreateForm';
-import { getTimers, saveTimers } from '../../utils/storage';
-import { normalizeTimer } from '../../utils/normalizeTimer';
-import { getDefaultTitle, formatTime } from '../../utils/timer';
-import { TimerItem } from '../../types/timer';
+import Timer from '../Timer';
+import CreateForm from '../CreateForm';
+import { getTimers, saveTimers } from '../../gateways/';
+import { getDefaultTitle } from '../../utils/';
+import { TimerItem } from '../../types';
 
 const Timers: React.FC = () => {
-  const [timers, setTimers] = useState<TimerItem[]>(() => getTimers().map(normalizeTimer));
+  const [timers, setTimers] = useState<TimerItem[]>(getTimers);
 
   useEffect(() => {
     saveTimers(timers);
@@ -72,13 +71,7 @@ const Timers: React.FC = () => {
 
         <ul className="flex flex-col gap-[40px] p-[30px_50px_39px_50px] md:px-[152px]">
           {timers.map(timer => (
-            <Timer
-              key={timer.id}
-              timer={timer}
-              onToggle={toggleTimer}
-              onDelete={deleteTimer}
-              formatTime={formatTime}
-            />
+            <Timer key={timer.id} timer={timer} onToggle={toggleTimer} onDelete={deleteTimer} />
           ))}
         </ul>
       </div>
